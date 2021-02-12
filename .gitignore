@@ -24,3 +24,6 @@ hs_err_pid*
 /Compiler/nbproject/private/
 /nbproject/private/
 /build/
+
+#MacOs wok
+.DS_Store
