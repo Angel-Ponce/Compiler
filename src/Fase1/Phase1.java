@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package Fase1;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -28,14 +28,6 @@ public class Phase1 extends javax.swing.JFrame {
             System.out.println("Error al cargar el layout");
         }
         initComponents();
-        try {
-            //Sent custom font to fields
-            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Main/Linebeam.ttf"));
-            font = font.deriveFont(30f);
-            input.setFont(font);
-            output.setFont(font);
-        } catch (FontFormatException | IOException ex) {
-        }
         this.setLocationRelativeTo(null);
     }
 
@@ -75,7 +67,7 @@ public class Phase1 extends javax.swing.JFrame {
         leftPanel.setLayout(new java.awt.BorderLayout());
 
         input.setColumns(20);
-        input.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        input.setFont(new java.awt.Font("Arial Narrow", 1, 24)); // NOI18N
         input.setForeground(new java.awt.Color(0, 204, 0));
         input.setRows(5);
         jScrollPane1.setViewportView(input);
@@ -89,7 +81,7 @@ public class Phase1 extends javax.swing.JFrame {
 
         output.setEditable(false);
         output.setColumns(20);
-        output.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        output.setFont(new java.awt.Font("Arial Narrow", 1, 24)); // NOI18N
         output.setForeground(new java.awt.Color(0, 101, 251));
         output.setRows(5);
         jScrollPane2.setViewportView(output);
@@ -158,7 +150,7 @@ public class Phase1 extends javax.swing.JFrame {
         String code = input.getText().trim(); //delete front an back null spaces
         String[] linesCode = code.split("\n");
         for (String line : linesCode) {
-            line = line+=" "; //Ask to engineer Macz
+            line = line += " "; //Ask to engineer Macz
             String element = "";
             for (int i = 0; i < line.length(); i++) {
                 String character = String.valueOf(line.charAt(i));
@@ -208,7 +200,7 @@ public class Phase1 extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
