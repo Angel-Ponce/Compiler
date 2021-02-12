@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Fase1;
+package Main;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -12,12 +12,12 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author angelponce
  */
-public class Phase1 extends javax.swing.JFrame {
+public class Compiler extends javax.swing.JFrame {
 
     /**
      * Creates new form Phase1
      */
-    public Phase1() {
+    public Compiler() {
         //Chose layout
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
@@ -202,7 +202,7 @@ public class Phase1 extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Phase1().setVisible(true);
+            new Compiler().setVisible(true);
         });
     }
 
