@@ -5,9 +5,6 @@
  */
 package Fase1;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
