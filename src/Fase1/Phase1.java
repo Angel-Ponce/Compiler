@@ -64,7 +64,7 @@ public class Phase1 extends javax.swing.JFrame {
         leftPanel.setLayout(new java.awt.BorderLayout());
 
         input.setColumns(20);
-        input.setFont(new java.awt.Font("Arial Narrow", 1, 24)); // NOI18N
+        input.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
         input.setForeground(new java.awt.Color(0, 204, 0));
         input.setRows(5);
         jScrollPane1.setViewportView(input);
@@ -78,7 +78,7 @@ public class Phase1 extends javax.swing.JFrame {
 
         output.setEditable(false);
         output.setColumns(20);
-        output.setFont(new java.awt.Font("Arial Narrow", 1, 24)); // NOI18N
+        output.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
         output.setForeground(new java.awt.Color(0, 101, 251));
         output.setRows(5);
         jScrollPane2.setViewportView(output);
