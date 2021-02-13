@@ -141,11 +141,19 @@ public class Compiler extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanActionPerformed
-        input.setText("");
-        output.setText("");
+        clean();
     }//GEN-LAST:event_cleanActionPerformed
 
     private void analizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeActionPerformed
+        analize();
+    }//GEN-LAST:event_analizeActionPerformed
+
+    private void exampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exampleActionPerformed
+        input.setText("\n\n\n\nint x;\ndouble y;\nint m=3;\n");
+        output.setText("");
+    }//GEN-LAST:event_exampleActionPerformed
+
+    private void analize() {
         output.setText("");
         String code = input.getText().trim(); //delete front an back null spaces
         String[] linesCode = code.split("\n");
@@ -193,12 +201,7 @@ public class Compiler extends javax.swing.JFrame {
             }
         }
         cleanOutput();
-    }//GEN-LAST:event_analizeActionPerformed
-
-    private void exampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exampleActionPerformed
-        input.setText("\n\n\n\nint x;\ndouble y;\nint m=3;\n");
-        output.setText("");
-    }//GEN-LAST:event_exampleActionPerformed
+    }
 
     private void cleanOutput() {
         String code = output.getText();
@@ -209,6 +212,11 @@ public class Compiler extends javax.swing.JFrame {
                 output.append(element + "\n");
             }
         }
+    }
+
+    private void clean() {
+        input.setText("");
+        output.setText("");
     }
 
     /**
