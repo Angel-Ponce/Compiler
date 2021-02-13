@@ -152,13 +152,43 @@ public class Compiler extends javax.swing.JFrame {
         for (String line : linesCode) {
             line = line += " "; //Ask to engineer Macz
             String element = "";
+            int indexChar = 0;
             for (int i = 0; i < line.length(); i++) {
                 String character = String.valueOf(line.charAt(i));
+                indexChar = i;
                 if (character.matches("\\w")) {
                     element += character;
                 } else {
-                    output.append(element + "\n" + character + "\n");
-                    element = "";
+                    if (character.equals("\"")) {
+                        fr1:
+                        for (int j = indexChar + 1; j < line.length(); j++) {
+                            i++;
+                            character = String.valueOf(line.charAt(j));
+                            if (!character.equals("\"")) {
+                                element += character;
+                            } else {
+                                output.append("\"" + element + "\"\n");
+                                element = "";
+                                break fr1;
+                            }
+                        }
+                    } else if (character.equals("\'")) {
+                        fr1:
+                        for (int j = indexChar + 1; j < line.length(); j++) {
+                            i++;
+                            character = String.valueOf(line.charAt(j));
+                            if (!character.equals("\'")) {
+                                element += character;
+                            } else {
+                                output.append("\'" + element + "\'\n");
+                                element = "";
+                                break fr1;
+                            }
+                        }
+                    } else {
+                        output.append(element + "\n" + character + "\n");
+                        element = "";
+                    }
                 }
             }
         }
