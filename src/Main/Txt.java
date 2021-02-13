@@ -84,4 +84,15 @@ public class Txt {
             }
         }
     }
+
+    public void clean() {
+        FileWriter fw = null;
+        PrintWriter pw = null;
+        try {
+            fw = new FileWriter(this.file);
+            pw = new PrintWriter(fw);
+            pw.print("");
+        } catch (IOException e) {
+        }
+    }
 }
