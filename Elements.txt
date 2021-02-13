@@ -49,7 +49,7 @@ true rw
 try rw
 void data
 while rw
-. sy
+. accesor
 [ sy
 ] sy
 ( sy

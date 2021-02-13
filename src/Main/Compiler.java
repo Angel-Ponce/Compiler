@@ -15,6 +15,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Compiler extends javax.swing.JFrame {
 
+    private Txt txtElements = new Txt("Elements");
+    private ArrayList<Element> elements = new ArrayList();
+
     /**
      * Creates new form Phase1
      */
@@ -26,6 +29,13 @@ public class Compiler extends javax.swing.JFrame {
             System.out.println("Error al cargar el layout");
         }
         initComponents();
+        //Fill elements
+        ArrayList<String> linesTxtElements = txtElements.getLines();
+        for (String line : linesTxtElements) {
+            String[] props = line.split("\\s");
+            Element element = new Element(props[0], props[1]);
+            elements.add(element);
+        }
         this.setLocationRelativeTo(null);
     }
 
@@ -206,6 +216,40 @@ public class Compiler extends javax.swing.JFrame {
             new Compiler().setVisible(true);
         });
     }
+
+    //<editor-fold defaultstate="collapsed" desc="Element inner class">
+    class Element {
+
+        private String value;
+        private String description;
+
+        public Element(String value, String description) {
+            this.value = value;
+            this.description = description;
+        }
+
+        public Element() {
+
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+    }
+    //</editor-fold>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analize;
