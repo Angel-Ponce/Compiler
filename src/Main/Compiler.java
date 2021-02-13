@@ -5,6 +5,7 @@
  */
 package Main;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.util.ArrayList;
 
 /**
@@ -191,8 +192,8 @@ public class Compiler extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            javax.swing.UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         //</editor-fold>
 
