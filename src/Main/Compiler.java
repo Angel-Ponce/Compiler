@@ -5,6 +5,8 @@
  */
 package Main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -165,6 +167,8 @@ public class Compiler extends javax.swing.JFrame {
     private void exampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exampleActionPerformed
         input.setText("\n\n\n\nint x;\ndouble y;\nint m=3;\n");
         output.setText("");
+        String[] l = {"Hola mundo jaja", "Por que siempre decimos hola mundo gg"};
+        ArrayList<String> lines = (ArrayList) Arrays.asList(l);
     }//GEN-LAST:event_exampleActionPerformed
 
     private void cleanOutput() {
