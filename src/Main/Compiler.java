@@ -59,6 +59,7 @@ public class Compiler extends javax.swing.JFrame {
         setTitle("Fase 1");
         setMinimumSize(new java.awt.Dimension(320, 200));
 
+        container.setPreferredSize(new java.awt.Dimension(1000, 500));
         container.setLayout(new java.awt.GridBagLayout());
 
         jSplitPane1.setResizeWeight(0.5);
@@ -69,7 +70,6 @@ public class Compiler extends javax.swing.JFrame {
 
         input.setColumns(20);
         input.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
-        input.setForeground(new java.awt.Color(0, 204, 0));
         input.setRows(5);
         jScrollPane1.setViewportView(input);
 
@@ -83,7 +83,6 @@ public class Compiler extends javax.swing.JFrame {
         output.setEditable(false);
         output.setColumns(20);
         output.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
-        output.setForeground(new java.awt.Color(0, 101, 251));
         output.setRows(5);
         jScrollPane2.setViewportView(output);
 
