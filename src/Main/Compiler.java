@@ -37,6 +37,7 @@ public class Compiler extends javax.swing.JFrame {
         }
         barSynchronized();
         addNumberUp();
+        input.requestFocus();
         this.setLocationRelativeTo(null);
     }
 
@@ -55,11 +56,13 @@ public class Compiler extends javax.swing.JFrame {
         upPanel = new javax.swing.JPanel();
         sp1 = new javax.swing.JScrollPane();
         lineCounterUp = new javax.swing.JTextArea();
+        jSeparator1 = new javax.swing.JSeparator();
         sp2 = new javax.swing.JScrollPane();
         input = new javax.swing.JTextArea();
         bottomPanel = new javax.swing.JPanel();
         sp3 = new javax.swing.JScrollPane();
         lineCounterBottom = new javax.swing.JTextArea();
+        jSeparator2 = new javax.swing.JSeparator();
         sp4 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
         footerContainer = new javax.swing.JPanel();
@@ -69,7 +72,7 @@ public class Compiler extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fase 1");
-        setMinimumSize(new java.awt.Dimension(500, 200));
+        setMinimumSize(new java.awt.Dimension(500, 400));
 
         container.setPreferredSize(new java.awt.Dimension(1000, 700));
         container.setLayout(new java.awt.GridBagLayout());
@@ -83,7 +86,7 @@ public class Compiler extends javax.swing.JFrame {
 
         sp1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         sp1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        sp1.setPreferredSize(new java.awt.Dimension(30, 123));
+        sp1.setPreferredSize(new java.awt.Dimension(40, 123));
 
         lineCounterUp.setEditable(false);
         lineCounterUp.setColumns(20);
@@ -92,9 +95,18 @@ public class Compiler extends javax.swing.JFrame {
         sp1.setViewportView(lineCounterUp);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         upPanel.add(sp1, gridBagConstraints);
+
+        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator1.setPreferredSize(new java.awt.Dimension(10, 10));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        upPanel.add(jSeparator1, gridBagConstraints);
 
         input.setColumns(20);
         input.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -115,7 +127,7 @@ public class Compiler extends javax.swing.JFrame {
 
         sp3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         sp3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        sp3.setPreferredSize(new java.awt.Dimension(30, 123));
+        sp3.setPreferredSize(new java.awt.Dimension(40, 123));
 
         lineCounterBottom.setEditable(false);
         lineCounterBottom.setColumns(20);
@@ -124,9 +136,18 @@ public class Compiler extends javax.swing.JFrame {
         sp3.setViewportView(lineCounterBottom);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         bottomPanel.add(sp3, gridBagConstraints);
+
+        jSeparator2.setBackground(new java.awt.Color(255, 255, 255));
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator2.setPreferredSize(new java.awt.Dimension(10, 10));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        bottomPanel.add(jSeparator2, gridBagConstraints);
 
         output.setEditable(false);
         output.setColumns(20);
@@ -185,7 +206,7 @@ public class Compiler extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         container.add(footerContainer, gridBagConstraints);
 
@@ -283,11 +304,11 @@ public class Compiler extends javax.swing.JFrame {
 
     private void cleanOutput() {
         String code = output.getText();
-        String[] elements = code.split("\n");
+        String[] tokens = code.split("\n");
         output.setText("");
-        for (String element : elements) {
-            if (!element.matches("\\s*|\\t*")) {
-                output.append(element.trim() + "\n");
+        for (String token : tokens) {
+            if (!token.matches("\\s*|\\t*")) {
+                output.append(token.trim() + "\n");
             }
         }
     }
@@ -447,6 +468,8 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JButton example;
     private javax.swing.JPanel footerContainer;
     private javax.swing.JTextArea input;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTextArea lineCounterBottom;
     private javax.swing.JTextArea lineCounterUp;
