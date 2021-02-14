@@ -48,14 +48,14 @@ public class Compiler extends javax.swing.JFrame {
         container = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         upPanel = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        sp1 = new javax.swing.JScrollPane();
         lineCounterUp = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        sp2 = new javax.swing.JScrollPane();
         input = new javax.swing.JTextArea();
         bottomPanel = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
+        sp3 = new javax.swing.JScrollPane();
         lineCounterBottom = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        sp4 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
         footerContainer = new javax.swing.JPanel();
         analize = new javax.swing.JButton();
@@ -76,64 +76,64 @@ public class Compiler extends javax.swing.JFrame {
         upPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Código"));
         upPanel.setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane5.setPreferredSize(new java.awt.Dimension(30, 123));
+        sp1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sp1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        sp1.setPreferredSize(new java.awt.Dimension(30, 123));
 
         lineCounterUp.setEditable(false);
         lineCounterUp.setColumns(20);
         lineCounterUp.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lineCounterUp.setRows(5);
-        jScrollPane5.setViewportView(lineCounterUp);
+        sp1.setViewportView(lineCounterUp);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        upPanel.add(jScrollPane5, gridBagConstraints);
+        upPanel.add(sp1, gridBagConstraints);
 
         input.setColumns(20);
         input.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         input.setRows(5);
         input.setTabSize(4);
-        jScrollPane3.setViewportView(input);
+        sp2.setViewportView(input);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        upPanel.add(jScrollPane3, gridBagConstraints);
+        upPanel.add(sp2, gridBagConstraints);
 
         jSplitPane1.setLeftComponent(upPanel);
 
         bottomPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tokens"));
         bottomPanel.setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane6.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane6.setPreferredSize(new java.awt.Dimension(30, 123));
+        sp3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sp3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        sp3.setPreferredSize(new java.awt.Dimension(30, 123));
 
         lineCounterBottom.setEditable(false);
         lineCounterBottom.setColumns(20);
         lineCounterBottom.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lineCounterBottom.setRows(5);
-        jScrollPane6.setViewportView(lineCounterBottom);
+        sp3.setViewportView(lineCounterBottom);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        bottomPanel.add(jScrollPane6, gridBagConstraints);
+        bottomPanel.add(sp3, gridBagConstraints);
 
         output.setColumns(20);
         output.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         output.setRows(5);
         output.setTabSize(4);
-        jScrollPane4.setViewportView(output);
+        sp4.setViewportView(output);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        bottomPanel.add(jScrollPane4, gridBagConstraints);
+        bottomPanel.add(sp4, gridBagConstraints);
 
         jSplitPane1.setRightComponent(bottomPanel);
 
@@ -231,7 +231,7 @@ public class Compiler extends javax.swing.JFrame {
                             if (!character.equals("\"")) {
                                 element += character;
                             } else {
-                                String token = "<\",sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\",sy> ";
+                                String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
                                 output.append(token);
                                 element = "";
                                 break;
@@ -244,7 +244,7 @@ public class Compiler extends javax.swing.JFrame {
                             if (!character.equals("\'")) {
                                 element += character;
                             } else {
-                                String token = "<\',sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\',sy> ";
+                                String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
                                 output.append(token);
                                 element = "";
                                 break;
@@ -296,6 +296,11 @@ public class Compiler extends javax.swing.JFrame {
             if (element.getValue().equals(line)) {
                 description = element.getDescription();
                 break;
+            }
+        }
+        if (description.equals("value")) {
+            if (line.matches("^(_{2,}|_\\w|[a-zA-Z])\\w*$")) {
+                description = "id";
             }
         }
         return description;
@@ -367,14 +372,14 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JButton example;
     private javax.swing.JPanel footerContainer;
     private javax.swing.JTextArea input;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTextArea lineCounterBottom;
     private javax.swing.JTextArea lineCounterUp;
     private javax.swing.JTextArea output;
+    private javax.swing.JScrollPane sp1;
+    private javax.swing.JScrollPane sp2;
+    private javax.swing.JScrollPane sp3;
+    private javax.swing.JScrollPane sp4;
     private javax.swing.JPanel upPanel;
     // End of variables declaration//GEN-END:variables
 }

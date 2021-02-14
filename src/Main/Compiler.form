@@ -73,7 +73,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                <Container class="javax.swing.JScrollPane" name="sp1">
                   <Properties>
                     <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
                     <Property name="verticalScrollBarPolicy" type="int" value="21"/>
@@ -104,7 +104,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+                <Container class="javax.swing.JScrollPane" name="sp2">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -146,7 +146,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane6">
+                <Container class="javax.swing.JScrollPane" name="sp3">
                   <Properties>
                     <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
                     <Property name="verticalScrollBarPolicy" type="int" value="21"/>
@@ -177,7 +177,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+                <Container class="javax.swing.JScrollPane" name="sp4">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
