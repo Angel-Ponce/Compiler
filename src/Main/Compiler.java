@@ -14,8 +14,10 @@ import java.util.ArrayList;
  */
 public class Compiler extends javax.swing.JFrame {
 
-    private Txt txtElements = new Txt("Elements");
-    private ArrayList<Element> elements = new ArrayList();
+    private final Txt txtElements = new Txt("Elements");
+    private final ArrayList<Element> elements = new ArrayList();
+    private int lineInputCounter = 1;
+    private int lineOutputCounter = 1;
 
     /**
      * Creates new form Phase1
@@ -29,6 +31,7 @@ public class Compiler extends javax.swing.JFrame {
             Element element = new Element(props[0], props[1]);
             elements.add(element);
         }
+        addNumberUp();
         this.setLocationRelativeTo(null);
     }
 
@@ -44,11 +47,15 @@ public class Compiler extends javax.swing.JFrame {
 
         container = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        leftPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        upPanel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        lineCounterUp = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
         input = new javax.swing.JTextArea();
-        rightPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        bottomPanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        lineCounterBottom = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
         footerContainer = new javax.swing.JPanel();
         analize = new javax.swing.JButton();
@@ -57,38 +64,78 @@ public class Compiler extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fase 1");
-        setMinimumSize(new java.awt.Dimension(320, 200));
+        setMinimumSize(new java.awt.Dimension(500, 200));
 
-        container.setPreferredSize(new java.awt.Dimension(1000, 500));
+        container.setPreferredSize(new java.awt.Dimension(1000, 700));
         container.setLayout(new java.awt.GridBagLayout());
 
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(0.5);
         jSplitPane1.setPreferredSize(new java.awt.Dimension(800, 400));
 
-        leftPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Código"));
-        leftPanel.setLayout(new java.awt.BorderLayout());
+        upPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Código"));
+        upPanel.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane5.setPreferredSize(new java.awt.Dimension(30, 123));
+
+        lineCounterUp.setEditable(false);
+        lineCounterUp.setColumns(20);
+        lineCounterUp.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lineCounterUp.setRows(5);
+        jScrollPane5.setViewportView(lineCounterUp);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        upPanel.add(jScrollPane5, gridBagConstraints);
 
         input.setColumns(20);
         input.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         input.setRows(5);
-        jScrollPane1.setViewportView(input);
+        input.setTabSize(4);
+        jScrollPane3.setViewportView(input);
 
-        leftPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        upPanel.add(jScrollPane3, gridBagConstraints);
 
-        jSplitPane1.setLeftComponent(leftPanel);
+        jSplitPane1.setLeftComponent(upPanel);
 
-        rightPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Palabras"));
-        rightPanel.setLayout(new java.awt.BorderLayout());
+        bottomPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tokens"));
+        bottomPanel.setLayout(new java.awt.GridBagLayout());
 
-        output.setEditable(false);
+        jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane6.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(30, 123));
+
+        lineCounterBottom.setEditable(false);
+        lineCounterBottom.setColumns(20);
+        lineCounterBottom.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lineCounterBottom.setRows(5);
+        jScrollPane6.setViewportView(lineCounterBottom);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        bottomPanel.add(jScrollPane6, gridBagConstraints);
+
         output.setColumns(20);
         output.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         output.setRows(5);
-        jScrollPane2.setViewportView(output);
+        output.setTabSize(4);
+        jScrollPane4.setViewportView(output);
 
-        rightPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        bottomPanel.add(jScrollPane4, gridBagConstraints);
 
-        jSplitPane1.setRightComponent(rightPanel);
+        jSplitPane1.setRightComponent(bottomPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -152,6 +199,16 @@ public class Compiler extends javax.swing.JFrame {
         input.setText("\n\n\n\nint x;\ndouble y;\nint m=3;\n");
         output.setText("");
     }//GEN-LAST:event_exampleActionPerformed
+
+    private void addNumberUp() {
+        lineCounterUp.append(lineInputCounter + "\n");
+        lineInputCounter++;
+    }
+
+    private void addNumberBottom() {
+        lineCounterBottom.append(lineOutputCounter + "\n");
+        lineOutputCounter++;
+    }
 
     private void analize() {
         output.setText("");
@@ -223,7 +280,7 @@ public class Compiler extends javax.swing.JFrame {
         output.setText("");
         for (String element : elements) {
             if (!element.matches("\\s*|\\t*")) {
-                output.append(element + "\n");
+                output.append(element.trim() + "\n");
             }
         }
     }
@@ -301,18 +358,23 @@ public class Compiler extends javax.swing.JFrame {
     }
     //</editor-fold>
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analize;
+    private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton clean;
     private javax.swing.JPanel container;
     private javax.swing.JButton example;
     private javax.swing.JPanel footerContainer;
     private javax.swing.JTextArea input;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JPanel leftPanel;
+    private javax.swing.JTextArea lineCounterBottom;
+    private javax.swing.JTextArea lineCounterUp;
     private javax.swing.JTextArea output;
-    private javax.swing.JPanel rightPanel;
+    private javax.swing.JPanel upPanel;
     // End of variables declaration//GEN-END:variables
 }
