@@ -123,8 +123,10 @@ public class Compiler extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         bottomPanel.add(sp3, gridBagConstraints);
 
+        output.setEditable(false);
         output.setColumns(20);
         output.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        output.setForeground(new java.awt.Color(204, 167, 66));
         output.setRows(5);
         output.setTabSize(4);
         sp4.setViewportView(output);
@@ -301,6 +303,8 @@ public class Compiler extends javax.swing.JFrame {
         if (description.equals("value")) {
             if (line.matches("^(_{2,}|_\\w|[a-zA-Z])\\w*$")) {
                 description = "id";
+            } else if (!line.matches("\\d+(\\.)?(\\d*)?(f|d|l)?")) {
+                description = "error";
             }
         }
         return description;
