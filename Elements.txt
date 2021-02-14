@@ -40,7 +40,7 @@ static rw
 super rw
 switch rw
 synchronized rw
-string data
+String data
 this rw
 throw rw
 throws rw

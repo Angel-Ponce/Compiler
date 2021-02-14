@@ -175,7 +175,8 @@ public class Compiler extends javax.swing.JFrame {
                             if (!character.equals("\"")) {
                                 element += character;
                             } else {
-                                output.append("\"" + element + "\"\n");
+                                String token = "<\",sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\",sy> ";
+                                output.append(token);
                                 element = "";
                                 break fr1;
                             }
@@ -188,17 +189,32 @@ public class Compiler extends javax.swing.JFrame {
                             if (!character.equals("\'")) {
                                 element += character;
                             } else {
-                                output.append("\'" + element + "\'\n");
+                                String token = "<\',sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\',sy> ";
+                                output.append(token);
                                 element = "";
                                 break fr1;
                             }
                         }
                     } else {
-                        output.append(element + "\n" + character + "\n");
+                        if (!character.matches("\\s|\\t")) {
+                            if (!element.isEmpty()) {
+                                String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
+                                output.append(token);
+                            } else {
+                                String token = "<" + character + "," + elementDescription(character) + "> ";
+                                output.append(token);
+                            }
+                        } else {
+                            if (!element.isEmpty()) {
+                                String token = "<" + element + "," + elementDescription(element) + "> ";
+                                output.append(token);
+                            }
+                        }
                         element = "";
                     }
                 }
             }
+            output.append("\n");
         }
         cleanOutput();
     }
@@ -217,6 +233,17 @@ public class Compiler extends javax.swing.JFrame {
     private void clean() {
         input.setText("");
         output.setText("");
+    }
+
+    private String elementDescription(String line) {
+        String description = "value";
+        for (Element element : elements) {
+            if (element.getValue().equals(line)) {
+                description = element.getDescription();
+                break;
+            }
+        }
+        return description;
     }
 
     /**
