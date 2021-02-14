@@ -23,7 +23,12 @@ public class Txt {
     File file;
 
     public Txt(String nameFile) {
-        this.file = new File(nameFile + ".txt");
+        try {
+            this.file = new File(nameFile + ".txt");
+            this.file.createNewFile();
+        } catch (IOException e) {
+            System.err.println(e);
+        }
     }
 
     public ArrayList<String> getLines() {

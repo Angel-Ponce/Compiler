@@ -6,7 +6,11 @@
 package Main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -31,6 +35,7 @@ public class Compiler extends javax.swing.JFrame {
             Element element = new Element(props[0], props[1]);
             elements.add(element);
         }
+        barSynchronized();
         addNumberUp();
         this.setLocationRelativeTo(null);
     }
@@ -308,6 +313,72 @@ public class Compiler extends javax.swing.JFrame {
             }
         }
         return description;
+    }
+
+    private void barSynchronized() {
+        sp2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent ae) {
+                sp1.getVerticalScrollBar().setValue(sp2.getVerticalScrollBar().getValue());
+            }
+        });
+
+        input.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                lineCounterUp.setText("");
+                lineInputCounter = 1;
+                for (int i = 1; i <= input.getLineCount(); i++) {
+                    addNumberUp();
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                lineCounterUp.setText("");
+                lineInputCounter = 1;
+                for (int i = 1; i <= input.getLineCount(); i++) {
+                    addNumberUp();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+
+            }
+        });
+
+        output.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                lineCounterBottom.setText("");
+                lineOutputCounter = 1;
+                for (int i = 1; i <= output.getLineCount(); i++) {
+                    addNumberBottom();
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                lineCounterBottom.setText("");
+                lineOutputCounter = 1;
+                for (int i = 1; i <= output.getLineCount(); i++) {
+                    addNumberBottom();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+
+            }
+        });
+
+        sp4.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent ae) {
+                sp3.getVerticalScrollBar().setValue(sp4.getVerticalScrollBar().getValue());
+            }
+        });
     }
 
     /**
