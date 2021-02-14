@@ -69,7 +69,7 @@ public class Compiler extends javax.swing.JFrame {
         leftPanel.setLayout(new java.awt.BorderLayout());
 
         input.setColumns(20);
-        input.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
+        input.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         input.setRows(5);
         jScrollPane1.setViewportView(input);
 
@@ -82,7 +82,7 @@ public class Compiler extends javax.swing.JFrame {
 
         output.setEditable(false);
         output.setColumns(20);
-        output.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
+        output.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         output.setRows(5);
         jScrollPane2.setViewportView(output);
 
@@ -168,7 +168,6 @@ public class Compiler extends javax.swing.JFrame {
                     element += character;
                 } else {
                     if (character.equals("\"")) {
-                        fr1:
                         for (int j = indexChar + 1; j < line.length(); j++) {
                             i++;
                             character = String.valueOf(line.charAt(j));
@@ -178,11 +177,10 @@ public class Compiler extends javax.swing.JFrame {
                                 String token = "<\",sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\",sy> ";
                                 output.append(token);
                                 element = "";
-                                break fr1;
+                                break;
                             }
                         }
                     } else if (character.equals("\'")) {
-                        fr1:
                         for (int j = indexChar + 1; j < line.length(); j++) {
                             i++;
                             character = String.valueOf(line.charAt(j));
@@ -192,7 +190,7 @@ public class Compiler extends javax.swing.JFrame {
                                 String token = "<\',sy> " + "<" + element + "," + elementDescription(element) + "> " + "<\',sy> ";
                                 output.append(token);
                                 element = "";
-                                break fr1;
+                                break;
                             }
                         }
                     } else {
