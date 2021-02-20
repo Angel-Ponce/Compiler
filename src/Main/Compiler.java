@@ -241,63 +241,79 @@ public class Compiler extends javax.swing.JFrame {
     private void analize() {
         output.setText("");
         String code = input.getText().trim(); //delete front an back null spaces
-        String[] linesCode = code.split("\n");
-        for (String line : linesCode) {
-            line = line += " "; //Ask to engineer Macz
-            String element = "";
-            int indexChar = 0;
-            for (int i = 0; i < line.length(); i++) {
-                String character = String.valueOf(line.charAt(i));
-                indexChar = i;
-                if (character.matches("\\w")) {
-                    element += character;
-                } else {
-                    if (character.equals("\"")) {
-                        for (int j = indexChar + 1; j < line.length(); j++) {
-                            i++;
-                            character = String.valueOf(line.charAt(j));
-                            if (!character.equals("\"")) {
-                                element += character;
-                            } else {
-                                String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
-                                output.append(token);
-                                element = "";
-                                break;
-                            }
+        code = code.replace("\n", " ");
+        String[] words = code.split("\\s");
+        String line = "";
+        for (String w : words) {
+            if (!w.isEmpty()) {
+                line += w + " ";
+            }
+        }
+
+        line = line += " "; //Ask to engineer Macz
+        String element = "";
+        int indexChar = 0;
+        for (int i = 0; i < line.length(); i++) {
+            String character = String.valueOf(line.charAt(i));
+            indexChar = i;
+            if (character.matches("\\w")) {
+                element += character;
+            } else {
+                if (character.equals("\"")) {
+                    for (int j = indexChar + 1; j < line.length(); j++) {
+                        i++;
+                        character = String.valueOf(line.charAt(j));
+                        if (!character.equals("\"")) {
+                            element += character;
+                        } else {
+                            String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
+                            output.append(token);
+                            element = "";
+                            break;
                         }
-                    } else if (character.equals("\'")) {
-                        for (int j = indexChar + 1; j < line.length(); j++) {
-                            i++;
-                            character = String.valueOf(line.charAt(j));
-                            if (!character.equals("\'")) {
-                                element += character;
-                            } else {
-                                String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
-                                output.append(token);
-                                element = "";
-                                break;
+                    }
+                } else if (character.equals("\'")) {
+                    for (int j = indexChar + 1; j < line.length(); j++) {
+                        i++;
+                        character = String.valueOf(line.charAt(j));
+                        if (!character.equals("\'")) {
+                            element += character;
+                        } else {
+                            String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
+                            output.append(token);
+                            element = "";
+                            break;
+                        }
+                    }
+//                    } else if (character.equals(".")) {
+//                        if (String.valueOf(line.charAt(indexChar - 1)).matches("\\d") && String.valueOf(line.charAt(indexChar + 1)).matches("\\d")) {
+//
+//                        }
+                } else {
+                    if (!character.matches("\\s|\\t")) {
+                        if (!element.isEmpty()) {
+                            String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
+                            output.append(token);
+                        } else {
+                            String token = "<" + character + "," + elementDescription(character) + "> ";
+                            output.append(token);
+                        }
+                        if (character.equals(";") || character.equals("}")) {
+                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";") && !String.valueOf(line.charAt(indexChar + 1)).equals("}")) {
+                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";") && !String.valueOf(line.charAt(indexChar + 2)).equals("}")) {
+                                    output.append("\n");
+                                }
                             }
                         }
                     } else {
-                        if (!character.matches("\\s|\\t")) {
-                            if (!element.isEmpty()) {
-                                String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
-                                output.append(token);
-                            } else {
-                                String token = "<" + character + "," + elementDescription(character) + "> ";
-                                output.append(token);
-                            }
-                        } else {
-                            if (!element.isEmpty()) {
-                                String token = "<" + element + "," + elementDescription(element) + "> ";
-                                output.append(token);
-                            }
+                        if (!element.isEmpty()) {
+                            String token = "<" + element + "," + elementDescription(element) + "> ";
+                            output.append(token);
                         }
-                        element = "";
                     }
+                    element = "";
                 }
             }
-            output.append("\n");
         }
         cleanOutput();
     }
@@ -329,7 +345,9 @@ public class Compiler extends javax.swing.JFrame {
         if (description.equals("value")) {
             if (line.matches("^(_{2,}|_\\w|[a-zA-Z])\\w*$")) {
                 description = "id";
-            } else if (!line.matches("\\d+(\\.)?(\\d*)?(f|d|l)?")) {
+            } else if (line.matches("\\d+(\\.)?(\\d*)?(f|d|l)?")) {
+                description = "num";
+            } else {
                 description = "error";
             }
         }
@@ -424,7 +442,7 @@ public class Compiler extends javax.swing.JFrame {
             new Compiler().setVisible(true);
         });
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Element inner class">
     class Element {
 
