@@ -242,15 +242,15 @@ public class Compiler extends javax.swing.JFrame {
         output.setText("");
         String code = input.getText().trim(); //delete front an back null spaces
         code = code.replace("\n", " ");
-        String[] words = code.split("\\s");
+        String[] words = code.split("(?=((?:\"[^\"]*?\"|[^\\s])+))");
         String line = "";
         for (String w : words) {
             if (!w.isEmpty()) {
-                line += w + " ";
+                line += w;
             }
         }
 
-        line = line += " "; //Ask to engineer Macz
+        line = line += "  ";
         String element = "";
         int indexChar = 0;
         for (int i = 0; i < line.length(); i++) {
@@ -298,9 +298,9 @@ public class Compiler extends javax.swing.JFrame {
                             String token = "<" + character + "," + elementDescription(character) + "> ";
                             output.append(token);
                         }
-                        if (character.equals(";") || character.equals("}")) {
-                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";") && !String.valueOf(line.charAt(indexChar + 1)).equals("}")) {
-                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";") && !String.valueOf(line.charAt(indexChar + 2)).equals("}")) {
+                        if (character.equals(";") || character.equals("{") || character.equals("}")) {
+                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
+                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
                                     output.append("\n");
                                 }
                             }
