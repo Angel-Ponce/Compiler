@@ -354,6 +354,7 @@ public class Compiler extends javax.swing.JFrame {
         return description;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="barSynchronized Method">
     private void barSynchronized() {
         sp2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             @Override
@@ -419,6 +420,7 @@ public class Compiler extends javax.swing.JFrame {
             }
         });
     }
+    //</editor-fold>
 
     /**
      * @param args the command line arguments
@@ -433,8 +435,6 @@ public class Compiler extends javax.swing.JFrame {
             javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
-        //</editor-fold>
-
         //</editor-fold>
 
         /* Create and display the form */
