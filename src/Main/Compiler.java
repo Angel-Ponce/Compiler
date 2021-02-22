@@ -226,7 +226,7 @@ public class Compiler extends javax.swing.JFrame {
     }//GEN-LAST:event_analizeActionPerformed
 
     private void exampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exampleActionPerformed
-        input.setText("\n\n\n\nint x;\ndouble y;\nint m=3;\n");
+        input.setText("public class Persona{\n" + "\n" + "	String nombre;\n" + "	int edad;\n" + "\n" + "	public Persona(){}\n" + "\n" + "	public Persona(String nombre, int edad){\n" + "		this.nombre = nombre;\n" + "		this.edad = edad;\n" + "	}\n" + "\n" + "	public void saludar(){\n" + "		System.out.println(\"Hola a todos, mi nombre es \"+this.nombre);\n" + "	}\n" + "}");
         output.setText("");
     }//GEN-LAST:event_exampleActionPerformed
 
