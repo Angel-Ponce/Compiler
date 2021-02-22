@@ -287,10 +287,6 @@ public class Compiler extends javax.swing.JFrame {
                             break;
                         }
                     }
-//                    } else if (character.equals(".")) {
-//                        if (String.valueOf(line.charAt(indexChar - 1)).matches("\\d") && String.valueOf(line.charAt(indexChar + 1)).matches("\\d")) {
-//
-//                        }
                 } else {
                     if (!character.matches("\\s|\\t")) {
                         if (!element.isEmpty()) {
@@ -347,7 +343,7 @@ public class Compiler extends javax.swing.JFrame {
         if (description.equals("value")) {
             if (line.matches("^(_{2,}|_\\w|[a-zA-Z])\\w*$")) {
                 description = "id";
-            } else if (line.matches("\\d+(\\.)?(\\d*)?(f|d|l)?")) {
+            } else if (line.matches("\\d+(\\.)?(\\d*)?(f|((E[+-]?\\d)?)d?|l)?")) {
                 description = "num";
             } else if (line.matches("^(((_{2,}|_\\w|[a-zA-Z])\\w*).)+$")) {
                 description = "objects";
