@@ -9,6 +9,8 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -242,21 +244,21 @@ public class Compiler extends javax.swing.JFrame {
         output.setText("");
         String code = input.getText().trim(); //delete front an back null spaces
         code = code.replace("\n", " ");
-        String[] words = code.split("(?=((?:\"[^\"]*?\"|[^\\s])+))");
+        String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
         String line = "";
         for (String w : words) {
-            if (!w.isEmpty()) {
-                line += w;
+            if (!w.matches("\\s+")) {
+                line += w + " ";
             }
         }
-
+        line = line.trim();
         line = line += "  ";
         String element = "";
         int indexChar = 0;
         for (int i = 0; i < line.length(); i++) {
             String character = String.valueOf(line.charAt(i));
             indexChar = i;
-            if (character.matches("\\w")) {
+            if (character.matches("(\\w|\\.)")) {
                 element += character;
             } else {
                 if (character.equals("\"")) {
@@ -347,11 +349,29 @@ public class Compiler extends javax.swing.JFrame {
                 description = "id";
             } else if (line.matches("\\d+(\\.)?(\\d*)?(f|d|l)?")) {
                 description = "num";
+            } else if (line.matches("^(((_{2,}|_\\w|[a-zA-Z])\\w*).)+$")) {
+                description = "objects";
             } else {
                 description = "error";
             }
         }
         return description;
+    }
+
+    public static String[] split(CharSequence input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        int start = 0;
+        ArrayList<String> result = new ArrayList();
+        while (matcher.find()) {
+            result.add(input.subSequence(start, matcher.start()).toString());
+            result.add(matcher.group());
+            start = matcher.end();
+        }
+        if (start != input.length()) {
+            result.add(input.subSequence(start, input.length()).toString());
+        }
+        return result.toArray(new String[0]);
     }
 
     //<editor-fold defaultstate="collapsed" desc="barSynchronized Method">
