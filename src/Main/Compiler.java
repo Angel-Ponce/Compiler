@@ -9,8 +9,10 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -24,6 +26,7 @@ public class Compiler extends javax.swing.JFrame {
     private final ArrayList<Element> elements = new ArrayList();
     private int lineInputCounter = 1;
     private int lineOutputCounter = 1;
+    private String outputFileName = null;
 
     /**
      * Creates new form Phase1
@@ -241,79 +244,90 @@ public class Compiler extends javax.swing.JFrame {
     }
 
     private void analize() {
-        output.setText("");
-        String code = input.getText().trim(); //delete front an back null spaces
-        code = code.replace("\n", " ");
-        String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
-        String line = "";
-        for (String w : words) {
-            if (!w.matches("\\s+")) {
-                line += w + " ";
-            }
-        }
-        line = line.trim();
-        line = line += "  ";
-        String element = "";
-        int indexChar = 0;
-        for (int i = 0; i < line.length(); i++) {
-            String character = String.valueOf(line.charAt(i));
-            indexChar = i;
-            if (character.matches("(\\w|\\.)")) {
-                element += character;
-            } else {
-                if (character.equals("\"")) {
-                    for (int j = indexChar + 1; j < line.length(); j++) {
-                        i++;
-                        character = String.valueOf(line.charAt(j));
-                        if (!character.equals("\"")) {
-                            element += character;
-                        } else {
-                            String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
-                            output.append(token);
-                            element = "";
-                            break;
-                        }
+        outputFileName = JOptionPane.showInputDialog(this, "Nombre de archivo: ");
+        if (outputFileName != null) {
+            if (outputFileName.matches("\\w+")) {
+                output.setText("");
+                String code = input.getText().trim(); //delete front an back null spaces
+                code = code.replace("\n", " ");
+                String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
+                String line = "";
+                for (String w : words) {
+                    if (!w.matches("\\s+")) {
+                        line += w + " ";
                     }
-                } else if (character.equals("\'")) {
-                    for (int j = indexChar + 1; j < line.length(); j++) {
-                        i++;
-                        character = String.valueOf(line.charAt(j));
-                        if (!character.equals("\'")) {
-                            element += character;
-                        } else {
-                            String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
-                            output.append(token);
-                            element = "";
-                            break;
-                        }
-                    }
-                } else {
-                    if (!character.matches("\\s|\\t")) {
-                        if (!element.isEmpty()) {
-                            String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
-                            output.append(token);
-                        } else {
-                            String token = "<" + character + "," + elementDescription(character) + "> ";
-                            output.append(token);
-                        }
-                        if (character.equals(";") || character.equals("{") || character.equals("}")) {
-                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
-                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
-                                    output.append("\n");
+                }
+                line = line.trim();
+                line = line += "  ";
+                String element = "";
+                int indexChar = 0;
+                for (int i = 0; i < line.length(); i++) {
+                    String character = String.valueOf(line.charAt(i));
+                    indexChar = i;
+                    if (character.matches("(\\w|\\.)")) {
+                        element += character;
+                    } else {
+                        if (character.equals("\"")) {
+                            for (int j = indexChar + 1; j < line.length(); j++) {
+                                i++;
+                                character = String.valueOf(line.charAt(j));
+                                if (!character.equals("\"")) {
+                                    element += character;
+                                } else {
+                                    String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
+                                    output.append(token);
+                                    element = "";
+                                    break;
                                 }
                             }
-                        }
-                    } else {
-                        if (!element.isEmpty()) {
-                            String token = "<" + element + "," + elementDescription(element) + "> ";
-                            output.append(token);
+                        } else if (character.equals("\'")) {
+                            for (int j = indexChar + 1; j < line.length(); j++) {
+                                i++;
+                                character = String.valueOf(line.charAt(j));
+                                if (!character.equals("\'")) {
+                                    element += character;
+                                } else {
+                                    String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
+                                    output.append(token);
+                                    element = "";
+                                    break;
+                                }
+                            }
+                        } else {
+                            if (!character.matches("\\s|\\t")) {
+                                if (!element.isEmpty()) {
+                                    String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
+                                    output.append(token);
+                                } else {
+                                    String token = "<" + character + "," + elementDescription(character) + "> ";
+                                    output.append(token);
+                                }
+                                if (character.equals(";") || character.equals("{") || character.equals("}")) {
+                                    if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
+                                        if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
+                                            output.append("\n");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (!element.isEmpty()) {
+                                    String token = "<" + element + "," + elementDescription(element) + "> ";
+                                    output.append(token);
+                                }
+                            }
+                            element = "";
                         }
                     }
-                    element = "";
                 }
+                ArrayList<String> contentOutput = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
+                Txt outputFile = new Txt(outputFileName);
+                outputFile.addContent(contentOutput);
+                outputFileName = null;
+                cleanOutput();
+            }else{
+                JOptionPane.showMessageDialog(this, "Nombre incorrecto");
             }
         }
-        cleanOutput();
     }
 
     private void cleanOutput() {
