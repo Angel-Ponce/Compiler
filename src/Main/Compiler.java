@@ -50,6 +50,7 @@ public class Compiler extends javax.swing.JFrame {
         }
         chargue.setVisible(false);
         lexicAnalizer.setIcon(checkedIcon);
+        this.setTitle("Analizador Léxico");
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
         barSynchronized();
         addNumberUp();
@@ -87,6 +88,7 @@ public class Compiler extends javax.swing.JFrame {
         clean = new javax.swing.JButton();
         example = new javax.swing.JButton();
         chargue = new javax.swing.JButton();
+        exit = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         lexicAnalizer = new javax.swing.JMenuItem();
@@ -197,6 +199,7 @@ public class Compiler extends javax.swing.JFrame {
         footerContainer.setPreferredSize(new java.awt.Dimension(800, 100));
 
         analize.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        analize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/brain.png"))); // NOI18N
         analize.setText("Analizar");
         analize.setPreferredSize(new java.awt.Dimension(150, 30));
         analize.addActionListener(new java.awt.event.ActionListener() {
@@ -207,6 +210,7 @@ public class Compiler extends javax.swing.JFrame {
         footerContainer.add(analize);
 
         clean.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        clean.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/clean.png"))); // NOI18N
         clean.setText("Limpiar");
         clean.setPreferredSize(new java.awt.Dimension(150, 30));
         clean.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +221,7 @@ public class Compiler extends javax.swing.JFrame {
         footerContainer.add(clean);
 
         example.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        example.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pencil.png"))); // NOI18N
         example.setText("Ejemplo");
         example.setPreferredSize(new java.awt.Dimension(150, 30));
         example.addActionListener(new java.awt.event.ActionListener() {
@@ -227,6 +232,7 @@ public class Compiler extends javax.swing.JFrame {
         footerContainer.add(example);
 
         chargue.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        chargue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/upload.png"))); // NOI18N
         chargue.setText("Cargar");
         chargue.setPreferredSize(new java.awt.Dimension(150, 30));
         chargue.addActionListener(new java.awt.event.ActionListener() {
@@ -235,6 +241,19 @@ public class Compiler extends javax.swing.JFrame {
             }
         });
         footerContainer.add(chargue);
+
+        exit.setBackground(new java.awt.Color(255, 51, 51));
+        exit.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        exit.setForeground(new java.awt.Color(255, 255, 255));
+        exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/exit.png"))); // NOI18N
+        exit.setText("Salir");
+        exit.setPreferredSize(new java.awt.Dimension(150, 30));
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        footerContainer.add(exit);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -307,6 +326,7 @@ public class Compiler extends javax.swing.JFrame {
     private void lexicAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lexicAnalizerActionPerformed
         typeAnalizer = 1;
         lexicAnalizer.setIcon(checkedIcon);
+        this.setTitle("Analizador Léxico");
         sintacticAnalizer.setIcon(null);
         semanticAnalizer.setIcon(null);
         upPanel.setBorder(BorderFactory.createTitledBorder("Código"));
@@ -341,6 +361,7 @@ public class Compiler extends javax.swing.JFrame {
     private void sintacticAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sintacticAnalizerActionPerformed
         typeAnalizer = 2;
         sintacticAnalizer.setIcon(checkedIcon);
+        this.setTitle("Analizador Sintáctico");
         lexicAnalizer.setIcon(null);
         semanticAnalizer.setIcon(null);
         upPanel.setBorder(BorderFactory.createTitledBorder("Tokens"));
@@ -352,6 +373,7 @@ public class Compiler extends javax.swing.JFrame {
     private void semanticAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semanticAnalizerActionPerformed
         typeAnalizer = 3;
         semanticAnalizer.setIcon(checkedIcon);
+        this.setTitle("Analizador Semántico");
         sintacticAnalizer.setIcon(null);
         lexicAnalizer.setIcon(null);
         upPanel.setBorder(BorderFactory.createTitledBorder("Input"));
@@ -359,6 +381,10 @@ public class Compiler extends javax.swing.JFrame {
         example.setVisible(false);
         chargue.setVisible(true);
     }//GEN-LAST:event_semanticAnalizerActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitActionPerformed
 
     private void addNumberUp() {
         lineCounterUp.append(lineInputCounter + "\n");
@@ -650,6 +676,7 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JButton clean;
     private javax.swing.JPanel container;
     private javax.swing.JButton example;
+    private javax.swing.JButton exit;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel footerContainer;
