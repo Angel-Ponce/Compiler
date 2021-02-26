@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -25,9 +26,12 @@ public class Compiler extends javax.swing.JFrame {
 
     private final Txt txtElements = new Txt("Elements");
     private final ArrayList<Element> elements = new ArrayList();
+    private final ImageIcon checkedIcon = new ImageIcon(getClass().getResource("/Images/checked.png"));
+    private final ImageIcon fileIcon = new ImageIcon(getClass().getResource("/Images/file.png"));
     private int lineInputCounter = 1;
     private int lineOutputCounter = 1;
-    private String outputFileName = null;
+    private int typeAnalizer = 1;
+        private String outputFileName = null;
 
     /**
      * Creates new form Phase1
@@ -41,6 +45,8 @@ public class Compiler extends javax.swing.JFrame {
             Element element = new Element(props[0], props[1]);
             elements.add(element);
         }
+        chargue.setVisible(false);
+        lexicAnalizer.setIcon(checkedIcon);
         barSynchronized();
         addNumberUp();
         input.requestFocus();
@@ -75,6 +81,12 @@ public class Compiler extends javax.swing.JFrame {
         analize = new javax.swing.JButton();
         clean = new javax.swing.JButton();
         example = new javax.swing.JButton();
+        chargue = new javax.swing.JButton();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        lexicAnalizer = new javax.swing.JMenuItem();
+        sintacticAnalizer = new javax.swing.JMenuItem();
+        semanticAnalizer = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fase 1");
@@ -209,6 +221,16 @@ public class Compiler extends javax.swing.JFrame {
         });
         footerContainer.add(example);
 
+        chargue.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        chargue.setText("Cargar");
+        chargue.setPreferredSize(new java.awt.Dimension(150, 30));
+        chargue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chargueActionPerformed(evt);
+            }
+        });
+        footerContainer.add(chargue);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -217,6 +239,36 @@ public class Compiler extends javax.swing.JFrame {
         container.add(footerContainer, gridBagConstraints);
 
         getContentPane().add(container, java.awt.BorderLayout.CENTER);
+
+        fileMenu.setText("Archivo");
+
+        lexicAnalizer.setText("Analizador Léxico");
+        lexicAnalizer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lexicAnalizerActionPerformed(evt);
+            }
+        });
+        fileMenu.add(lexicAnalizer);
+
+        sintacticAnalizer.setText("Analizador Sintáctico");
+        sintacticAnalizer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sintacticAnalizerActionPerformed(evt);
+            }
+        });
+        fileMenu.add(sintacticAnalizer);
+
+        semanticAnalizer.setText("Analizador Semántico");
+        semanticAnalizer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                semanticAnalizerActionPerformed(evt);
+            }
+        });
+        fileMenu.add(semanticAnalizer);
+
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -234,6 +286,43 @@ public class Compiler extends javax.swing.JFrame {
         output.setText("");
     }//GEN-LAST:event_exampleActionPerformed
 
+    private void lexicAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lexicAnalizerActionPerformed
+        typeAnalizer = 1;
+        lexicAnalizer.setIcon(checkedIcon);
+        sintacticAnalizer.setIcon(null);
+        semanticAnalizer.setIcon(null);
+        upPanel.setBorder(BorderFactory.createTitledBorder("Código"));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder("Tokens"));
+        example.setVisible(true);
+        chargue.setVisible(false);
+    }//GEN-LAST:event_lexicAnalizerActionPerformed
+
+    private void chargueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chargueActionPerformed
+
+    private void sintacticAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sintacticAnalizerActionPerformed
+        typeAnalizer = 2;
+        sintacticAnalizer.setIcon(checkedIcon);
+        lexicAnalizer.setIcon(null);
+        semanticAnalizer.setIcon(null);
+        upPanel.setBorder(BorderFactory.createTitledBorder("Tokens"));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder("Output"));
+        example.setVisible(false);
+        chargue.setVisible(true);
+    }//GEN-LAST:event_sintacticAnalizerActionPerformed
+
+    private void semanticAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semanticAnalizerActionPerformed
+        typeAnalizer = 3;
+        semanticAnalizer.setIcon(checkedIcon);
+        sintacticAnalizer.setIcon(null);
+        lexicAnalizer.setIcon(null);
+        upPanel.setBorder(BorderFactory.createTitledBorder("Input"));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder("Output"));
+        example.setVisible(false);
+        chargue.setVisible(true);
+    }//GEN-LAST:event_semanticAnalizerActionPerformed
+
     private void addNumberUp() {
         lineCounterUp.append(lineInputCounter + "\n");
         lineInputCounter++;
@@ -245,7 +334,7 @@ public class Compiler extends javax.swing.JFrame {
     }
 
     private void analize() {
-        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ","Archivo", JOptionPane.DEFAULT_OPTION, new ImageIcon(getClass().getResource("/Images/file.png")), null, null);
+        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ","Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
         if (outputFileName != null) {
             if (outputFileName.matches("\\w+")) {
                 output.setText("");
@@ -512,17 +601,23 @@ public class Compiler extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analize;
     private javax.swing.JPanel bottomPanel;
+    private javax.swing.JButton chargue;
     private javax.swing.JButton clean;
     private javax.swing.JPanel container;
     private javax.swing.JButton example;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel footerContainer;
     private javax.swing.JTextArea input;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JMenuItem lexicAnalizer;
     private javax.swing.JTextArea lineCounterBottom;
     private javax.swing.JTextArea lineCounterUp;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextArea output;
+    private javax.swing.JMenuItem semanticAnalizer;
+    private javax.swing.JMenuItem sintacticAnalizer;
     private javax.swing.JScrollPane sp1;
     private javax.swing.JScrollPane sp2;
     private javax.swing.JScrollPane sp3;
