@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -244,7 +245,7 @@ public class Compiler extends javax.swing.JFrame {
     }
 
     private void analize() {
-        outputFileName = JOptionPane.showInputDialog(this, "Nombre de archivo: ");
+        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ","Archivo", JOptionPane.DEFAULT_OPTION, new ImageIcon(getClass().getResource("/Images/file.png")), null, null);
         if (outputFileName != null) {
             if (outputFileName.matches("\\w+")) {
                 output.setText("");
