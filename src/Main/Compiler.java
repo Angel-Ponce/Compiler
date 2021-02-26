@@ -8,15 +8,18 @@ package Main;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -31,7 +34,7 @@ public class Compiler extends javax.swing.JFrame {
     private int lineInputCounter = 1;
     private int lineOutputCounter = 1;
     private int typeAnalizer = 1;
-        private String outputFileName = null;
+    private String outputFileName = null;
 
     /**
      * Creates new form Phase1
@@ -47,6 +50,7 @@ public class Compiler extends javax.swing.JFrame {
         }
         chargue.setVisible(false);
         lexicAnalizer.setIcon(checkedIcon);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
         barSynchronized();
         addNumberUp();
         input.requestFocus();
@@ -63,6 +67,7 @@ public class Compiler extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        fileChooser = new javax.swing.JFileChooser();
         container = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         upPanel = new javax.swing.JPanel();
@@ -278,7 +283,20 @@ public class Compiler extends javax.swing.JFrame {
     }//GEN-LAST:event_cleanActionPerformed
 
     private void analizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeActionPerformed
-        analize();
+        switch (typeAnalizer) {
+            case 1:
+                lexicAnalize();
+                break;
+            case 2:
+                sintacticAnalize();
+                break;
+            case 3:
+                semanticAnalize();
+                break;
+            default:
+                lexicAnalize();
+                break;
+        }
     }//GEN-LAST:event_analizeActionPerformed
 
     private void exampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exampleActionPerformed
@@ -298,7 +316,26 @@ public class Compiler extends javax.swing.JFrame {
     }//GEN-LAST:event_lexicAnalizerActionPerformed
 
     private void chargueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chargueActionPerformed
-        // TODO add your handling code here:
+        int select = fileChooser.showOpenDialog(this);
+        if (select == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null) {
+                String[] fileName = selectedFile.getName().split("\\.");
+                if (fileName.length >= 2) {
+                    if (fileName[1].toLowerCase().equals("txt")) {
+                        clean();
+                        Txt inputFile = new Txt(selectedFile);
+                        for (String inputContent : inputFile.getLines()) {
+                            input.append(inputContent + "\n");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Debe ser un archivo plano (.txt)", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar abrir este archivo", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_chargueActionPerformed
 
     private void sintacticAnalizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sintacticAnalizerActionPerformed
@@ -333,8 +370,8 @@ public class Compiler extends javax.swing.JFrame {
         lineOutputCounter++;
     }
 
-    private void analize() {
-        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ","Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
+    private void lexicAnalize() {
+        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ", "Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
         if (outputFileName != null) {
             if (outputFileName.matches("\\w+")) {
                 output.setText("");
@@ -414,10 +451,18 @@ public class Compiler extends javax.swing.JFrame {
                 outputFile.addContent(contentOutput);
                 outputFileName = null;
                 cleanOutput();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Nombre incorrecto");
             }
         }
+    }
+
+    private void sintacticAnalize() {
+
+    }
+
+    private void semanticAnalize() {
+
     }
 
     private void cleanOutput() {
@@ -605,6 +650,7 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JButton clean;
     private javax.swing.JPanel container;
     private javax.swing.JButton example;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel footerContainer;
     private javax.swing.JTextArea input;

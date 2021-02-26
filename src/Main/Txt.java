@@ -22,6 +22,10 @@ public class Txt {
     ArrayList<String> lines = new ArrayList();
     File file;
 
+    public Txt(File inputFile) {
+        this.file = inputFile;
+    }
+
     public Txt(String nameFile) {
         try {
             this.file = new File(nameFile + ".txt");
