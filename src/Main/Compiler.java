@@ -6,9 +6,13 @@
 package Main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.Desktop;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -94,6 +98,8 @@ public class Compiler extends javax.swing.JFrame {
         lexicAnalizer = new javax.swing.JMenuItem();
         sintacticAnalizer = new javax.swing.JMenuItem();
         semanticAnalizer = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        github = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fase 1");
@@ -289,6 +295,16 @@ public class Compiler extends javax.swing.JFrame {
             }
         });
         fileMenu.add(semanticAnalizer);
+        fileMenu.add(jSeparator3);
+
+        github.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/github.png"))); // NOI18N
+        github.setText("Github");
+        github.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                githubActionPerformed(evt);
+            }
+        });
+        fileMenu.add(github);
 
         menuBar.add(fileMenu);
 
@@ -385,6 +401,13 @@ public class Compiler extends javax.swing.JFrame {
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
+
+    private void githubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_githubActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/Angel-Ponce/Compiler"));
+        } catch (IOException | URISyntaxException e) {
+        }
+    }//GEN-LAST:event_githubActionPerformed
 
     private void addNumberUp() {
         lineCounterUp.append(lineInputCounter + "\n");
@@ -680,9 +703,11 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel footerContainer;
+    private javax.swing.JMenuItem github;
     private javax.swing.JTextArea input;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JMenuItem lexicAnalizer;
     private javax.swing.JTextArea lineCounterBottom;
