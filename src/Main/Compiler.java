@@ -427,7 +427,7 @@ public class Compiler extends javax.swing.JFrame {
                                 if (!character.equals("\"")) {
                                     element += character;
                                 } else {
-                                    String token = "<\",sy> " + "<" + element + ",value> " + "<\",sy> ";
+                                    String token = "<\",sy_codo> " + "<" + element + ",value> " + "<\",sy_codo> ";
                                     output.append(token);
                                     element = "";
                                     break;
@@ -440,7 +440,7 @@ public class Compiler extends javax.swing.JFrame {
                                 if (!character.equals("\'")) {
                                     element += character;
                                 } else {
-                                    String token = "<\',sy> " + "<" + element + ",value> " + "<\',sy> ";
+                                    String token = "<\',sy_cosi> " + "<" + element + ",value> " + "<\',sy_cosi> ";
                                     output.append(token);
                                     element = "";
                                     break;
