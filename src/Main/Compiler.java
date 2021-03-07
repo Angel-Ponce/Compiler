@@ -494,6 +494,33 @@ public class Compiler extends javax.swing.JFrame {
                 }
             }
         }
+        //Una doble pasada para buscar los números con exponentes
+        ArrayList<String> tokens = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
+        output.setText("");
+        tokens.forEach((token) -> {
+            String[] t = token.split("\\s");
+            for (int i = 0; i < t.length; i++) {
+                if (t[i].matches("<\\d+(.\\d+)?E,error>") && i < (t.length - 2)) {
+                    if (t[i + 1].matches("<(\\+|-),(op_less|op_add)>")) {
+                        if (t[i + 2].matches("<\\d+,num>")) {
+                            String t1 = t[i];
+                            String t2 = t[i + 1];
+                            String t3 = t[i + 2];
+                            String oldChar = "" + t1 + " " + t2 + " " + t3;
+                            t1 = t1.replace("<", "").replace(">", "").replace(",", "").replace("error", "");
+                            t2 = t2.replace("<", "").replace(">", "").replace(",", "").replace("op_less", "");
+                            t2 = t2.replace("<", "").replace(">", "").replace(",", "").replace("op_add", "");
+                            t3 = t3.replace("<", "").replace(">", "").replace(",", "").replace("num", "");
+                            String newChar = "<" + t1 + t2 + t3 + "," + "num" + ">";
+                            token = token.replace(oldChar, newChar);
+                        }
+                    }
+
+                }
+            }
+            output.append(token + "\n");
+        });
+
         cleanOutput();
         int save = JOptionPane.showConfirmDialog(this, "¿Desea guardar los tokens?", "Atención", JOptionPane.YES_NO_OPTION);
         if (save == JOptionPane.YES_OPTION) {
