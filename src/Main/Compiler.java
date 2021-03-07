@@ -56,6 +56,7 @@ public class Compiler extends javax.swing.JFrame {
         lexicAnalizer.setIcon(checkedIcon);
         this.setTitle("Analizador Léxico");
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         barSynchronized();
         addNumberUp();
         input.requestFocus();
@@ -420,90 +421,96 @@ public class Compiler extends javax.swing.JFrame {
     }
 
     private void lexicAnalize() {
-        outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ", "Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
-        if (outputFileName != null) {
-            if (outputFileName.matches("\\w+")) {
-                output.setText("");
-                String code = input.getText().trim(); //delete front an back null spaces
-                code = code.replace("\n", " ");
-                String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
-                String line = "";
-                for (String w : words) {
-                    if (!w.matches("\\s+")) {
-                        line += w + " ";
-                    }
-                }
-                line = line.trim();
-                line = line += "  ";
-                String element = "";
-                int indexChar = 0;
-                for (int i = 0; i < line.length(); i++) {
-                    String character = String.valueOf(line.charAt(i));
-                    indexChar = i;
-                    if (character.matches("(\\w|\\.)")) {
-                        element += character;
-                    } else {
-                        if (character.equals("\"")) {
-                            for (int j = indexChar + 1; j < line.length(); j++) {
-                                i++;
-                                character = String.valueOf(line.charAt(j));
-                                if (!character.equals("\"")) {
-                                    element += character;
-                                } else {
-                                    String token = "<\",sy_codo> " + "<" + element + ",value> " + "<\",sy_codo> ";
-                                    output.append(token);
-                                    element = "";
-                                    break;
-                                }
-                            }
-                        } else if (character.equals("\'")) {
-                            for (int j = indexChar + 1; j < line.length(); j++) {
-                                i++;
-                                character = String.valueOf(line.charAt(j));
-                                if (!character.equals("\'")) {
-                                    element += character;
-                                } else {
-                                    String token = "<\',sy_cosi> " + "<" + element + ",value> " + "<\',sy_cosi> ";
-                                    output.append(token);
-                                    element = "";
-                                    break;
-                                }
-                            }
-                        } else {
-                            if (!character.matches("\\s|\\t")) {
-                                if (!element.isEmpty()) {
-                                    String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
-                                    output.append(token);
-                                } else {
-                                    String token = "<" + character + "," + elementDescription(character) + "> ";
-                                    output.append(token);
-                                }
-                                if (character.equals(";") || character.equals("{") || character.equals("}")) {
-                                    if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
-                                        if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
-                                            output.append("\n");
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (!element.isEmpty()) {
-                                    String token = "<" + element + "," + elementDescription(element) + "> ";
-                                    output.append(token);
-                                }
-                            }
-                            element = "";
-                        }
-                    }
-                }
-                ArrayList<String> contentOutput = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
-                Txt outputFile = new Txt(outputFileName);
-                outputFile.addContent(contentOutput);
-                outputFileName = null;
-                cleanOutput();
-            } else {
-                JOptionPane.showMessageDialog(this, "Nombre incorrecto");
+
+        output.setText("");
+        String code = input.getText().trim(); //delete front an back null spaces
+        code = code.replace("\n", " ");
+        String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
+        String line = "";
+        for (String w : words) {
+            if (!w.matches("\\s+")) {
+                line += w + " ";
             }
         }
+        line = line.trim();
+        line = line += "  ";
+        String element = "";
+        int indexChar = 0;
+        for (int i = 0; i < line.length(); i++) {
+            String character = String.valueOf(line.charAt(i));
+            indexChar = i;
+            if (character.matches("(\\w|\\.)")) {
+                element += character;
+            } else {
+                if (character.equals("\"")) {
+                    for (int j = indexChar + 1; j < line.length(); j++) {
+                        i++;
+                        character = String.valueOf(line.charAt(j));
+                        if (!character.equals("\"")) {
+                            element += character;
+                        } else {
+                            String token = "<\",sy_codo> " + "<" + element + ",value> " + "<\",sy_codo> ";
+                            output.append(token);
+                            element = "";
+                            break;
+                        }
+                    }
+                } else if (character.equals("\'")) {
+                    for (int j = indexChar + 1; j < line.length(); j++) {
+                        i++;
+                        character = String.valueOf(line.charAt(j));
+                        if (!character.equals("\'")) {
+                            element += character;
+                        } else {
+                            String token = "<\',sy_cosi> " + "<" + element + ",value> " + "<\',sy_cosi> ";
+                            output.append(token);
+                            element = "";
+                            break;
+                        }
+                    }
+                } else {
+                    if (!character.matches("\\s|\\t")) {
+                        if (!element.isEmpty()) {
+                            String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
+                            output.append(token);
+                        } else {
+                            String token = "<" + character + "," + elementDescription(character) + "> ";
+                            output.append(token);
+                        }
+                        if (character.equals(";") || character.equals("{") || character.equals("}")) {
+                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
+                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
+                                    output.append("\n");
+                                }
+                            }
+                        }
+                    } else {
+                        if (!element.isEmpty()) {
+                            String token = "<" + element + "," + elementDescription(element) + "> ";
+                            output.append(token);
+                        }
+                    }
+                    element = "";
+                }
+            }
+        }
+        cleanOutput();
+        int save = JOptionPane.showConfirmDialog(this, "¿Desea guardar los tokens?", "Atención", JOptionPane.YES_NO_OPTION);
+        if (save == JOptionPane.YES_OPTION) {
+            outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ", "Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
+            if (outputFileName != null) {
+                if (outputFileName.matches("\\w+")) {
+                    ArrayList<String> contentOutput = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
+                    Txt outputFile = new Txt(outputFileName);
+                    outputFile.addContent(contentOutput);
+                    outputFileName = null;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nombre incorrecto");
+                }
+            }
+
+        }
+
     }
 
     private void sintacticAnalize() {
