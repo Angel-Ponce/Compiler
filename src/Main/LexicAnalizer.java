@@ -109,7 +109,7 @@ public class LexicAnalizer {
                 }
             }
         }
-        //Una doble pasada para buscar los números con exponentes
+        //Una doble pasada para buscar los números con exponentes y negativos
         ArrayList<String> tokens = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
         output.setText("");
         tokens.forEach((token) -> {
@@ -117,7 +117,7 @@ public class LexicAnalizer {
             for (int i = 0; i < t.length; i++) {
                 if (t[i].matches("<\\d+(.\\d+)?E,error>") && i < (t.length - 2)) {
                     if (t[i + 1].matches("<(\\+|-),(op_less|op_add)>")) {
-                        if (t[i + 2].matches("<\\d+,num>")) {
+                        if (t[i + 2].matches("<\\d+d?,num>")) {
                             String t1 = t[i];
                             String t2 = t[i + 1];
                             String t3 = t[i + 2];
@@ -131,6 +131,31 @@ public class LexicAnalizer {
                         }
                     }
 
+                }
+            }
+            output.append(token + "\n");
+        });
+
+        tokens.clear();
+        tokens = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
+        output.setText("");
+        tokens.forEach((token) -> {
+            String[] t = token.split("\\s");
+            for (int i = 0; i < t.length; i++) {
+                if (t[i].matches("<.+,num>")) {
+                    try {
+                        if (t[i - 1].matches("<-,op_less>")) {
+                            String t1 = t[i - 1];
+                            String t2 = t[i];
+                            String oldChar = t1 + " " + t2;
+                            t1 = "-";
+                            t2 = t2.replace("<", "").replace(">", "").replace(",", "").replace("num", "");
+                            String newChar = "<" + t1 + t2 + ",num> ";
+                            token = token.replace(oldChar, newChar);
+                        }
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
                 }
             }
             output.append(token + "\n");
