@@ -30,6 +30,9 @@ public class Compiler extends javax.swing.JFrame {
 
     //Analizers
     private LexicAnalizer lexicA;
+    private SintacticAnalizer sintacticA;
+    private SemanticAnalizer semanticA;
+    //
 
     private final Txt txtElements = new Txt("Elements");
     private final ArrayList<Element> elements = new ArrayList();
@@ -52,6 +55,7 @@ public class Compiler extends javax.swing.JFrame {
         }
         //Build analizers
         lexicA = new LexicAnalizer(elements, input, output);
+        sintacticA = new SintacticAnalizer(input, output, symbolsTableDialog);
         //
         chargue.setVisible(false);
         symbolsTableDialog.setLocationRelativeTo(this);
