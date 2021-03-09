@@ -53,6 +53,7 @@ public class Compiler extends javax.swing.JFrame {
             elements.add(element);
         }
         chargue.setVisible(false);
+        symbolsTableDialog.setLocationRelativeTo(this);
         lexicAnalizer.setIcon(checkedIcon);
         this.setTitle("Analizador Léxico");
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
@@ -143,10 +144,10 @@ public class Compiler extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(70);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(70);
         }
 
         tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -614,7 +615,7 @@ public class Compiler extends javax.swing.JFrame {
     }
 
     private void sintacticAnalize() {
-
+        symbolsTableDialog.setVisible(true);
     }
 
     private void semanticAnalize() {
