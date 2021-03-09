@@ -1,0 +1,13 @@
+<public,modificador> <class,pr> <Persona,id> <{,lla_a>
+<String,dato> <nombre,id> <;,terminal>
+<int,dato> <edad,id> <;,terminal>
+<public,modificador> <Persona,id> <(,par_a> <),par_c> <{,lla_a>
+<},lla_c>
+<public,modificador> <Persona,id> <(,par_a> <String,dato> <nombre,id> <,,sy_coma> <int,dato> <edad,id> <),par_c> <{,lla_a>
+<this.nombre,objects> <=,sy_asig> <nombre,id> <;,terminal>
+<this.edad,objects> <=,sy_asig> <edad,id> <;,terminal>
+<},lla_c>
+<public,modificador> <void,dato> <saludar,id> <(,par_a> <),par_c> <{,lla_a>
+<System.out.println,objects> <(,par_a> <",sy_codo> <Hola a todos, mi nombre es ,value> <",sy_codo> <+,op_add> <this.nombre,objects> <),par_c> <;,terminal>
+<},lla_c>
+<},lla_c>

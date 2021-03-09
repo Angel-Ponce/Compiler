@@ -55,7 +55,7 @@ public class Compiler extends javax.swing.JFrame {
         }
         //Build analizers
         lexicA = new LexicAnalizer(elements, input, output);
-        sintacticA = new SintacticAnalizer(input, output, symbolsTableDialog);
+        sintacticA = new SintacticAnalizer(input, output, symbolsTableDialog, symbolsTable);
         semanticA = new SemanticAnalizer();
         //
         chargue.setVisible(false);
@@ -85,7 +85,7 @@ public class Compiler extends javax.swing.JFrame {
         containerTable = new javax.swing.JPanel();
         tablePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        symbolsTable = new javax.swing.JTable();
         footerTablePanel = new javax.swing.JPanel();
         saveTable = new javax.swing.JButton();
         container = new javax.swing.JPanel();
@@ -117,14 +117,13 @@ public class Compiler extends javax.swing.JFrame {
         github = new javax.swing.JMenuItem();
 
         symbolsTableDialog.setModal(true);
-        symbolsTableDialog.setPreferredSize(new java.awt.Dimension(500, 500));
         symbolsTableDialog.setSize(new java.awt.Dimension(500, 500));
 
         containerTable.setLayout(new java.awt.GridBagLayout());
 
         tablePanel.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        symbolsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -147,13 +146,13 @@ public class Compiler extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(70);
+        jScrollPane1.setViewportView(symbolsTable);
+        if (symbolsTable.getColumnModel().getColumnCount() > 0) {
+            symbolsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+            symbolsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            symbolsTable.getColumnModel().getColumn(2).setPreferredWidth(70);
+            symbolsTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            symbolsTable.getColumnModel().getColumn(4).setPreferredWidth(70);
         }
 
         tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -649,7 +648,6 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JMenuItem lexicAnalizer;
     private javax.swing.JTextArea lineCounterBottom;
     private javax.swing.JTextArea lineCounterUp;
@@ -662,6 +660,7 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JScrollPane sp2;
     private javax.swing.JScrollPane sp3;
     private javax.swing.JScrollPane sp4;
+    private javax.swing.JTable symbolsTable;
     private javax.swing.JDialog symbolsTableDialog;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JPanel upPanel;
