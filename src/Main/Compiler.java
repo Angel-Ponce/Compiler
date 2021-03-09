@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -31,14 +28,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Compiler extends javax.swing.JFrame {
 
+    //Analizers
+    private LexicAnalizer lexicA;
+
     private final Txt txtElements = new Txt("Elements");
     private final ArrayList<Element> elements = new ArrayList();
     private final ImageIcon checkedIcon = new ImageIcon(getClass().getResource("/Images/checked.png"));
-    private final ImageIcon fileIcon = new ImageIcon(getClass().getResource("/Images/file.png"));
     private int lineInputCounter = 1;
     private int lineOutputCounter = 1;
     private int typeAnalizer = 1;
-    private String outputFileName = null;
 
     /**
      * Creates new form Phase1
@@ -52,6 +50,9 @@ public class Compiler extends javax.swing.JFrame {
             Element element = new Element(props[0], props[1]);
             elements.add(element);
         }
+        //Build analizers
+        lexicA = new LexicAnalizer(elements, input, output);
+        //
         chargue.setVisible(false);
         symbolsTableDialog.setLocationRelativeTo(this);
         lexicAnalizer.setIcon(checkedIcon);
@@ -395,16 +396,16 @@ public class Compiler extends javax.swing.JFrame {
     private void analizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizeActionPerformed
         switch (typeAnalizer) {
             case 1:
-                lexicAnalize();
+                lexicA.analize();
                 break;
             case 2:
-                sintacticAnalize();
+
                 break;
             case 3:
-                semanticAnalize();
+
                 break;
             default:
-                lexicAnalize();
+                lexicA.analize();
                 break;
         }
     }//GEN-LAST:event_analizeActionPerformed
@@ -494,211 +495,9 @@ public class Compiler extends javax.swing.JFrame {
         lineOutputCounter++;
     }
 
-    private void lexicAnalize() {
-
-        output.setText("");
-        String code = input.getText().trim(); //delete front an back null spaces
-        code = code.replace("\n", " ");
-        String[] words = split(code, "(?:\"[^\"]*?\"|[^\\s])+");
-        String line = "";
-        for (String w : words) {
-            if (!w.matches("\\s+")) {
-                line += w + " ";
-            }
-        }
-        line = line.trim();
-        line = line += "  ";
-        String element = "";
-        int indexChar = 0;
-        for (int i = 0; i < line.length(); i++) {
-            String character = String.valueOf(line.charAt(i));
-            indexChar = i;
-            if (character.matches("(\\w|\\.)")) {
-                element += character;
-            } else {
-                if (character.equals("\"")) {
-                    for (int j = indexChar + 1; j < line.length(); j++) {
-                        i++;
-                        character = String.valueOf(line.charAt(j));
-                        if (!character.equals("\"")) {
-                            element += character;
-                        } else {
-                            String token = "<\",sy_codo> " + "<" + element + ",value> " + "<\",sy_codo> ";
-                            output.append(token);
-                            element = "";
-                            break;
-                        }
-                    }
-                } else if (character.equals("\'")) {
-                    for (int j = indexChar + 1; j < line.length(); j++) {
-                        i++;
-                        character = String.valueOf(line.charAt(j));
-                        if (!character.equals("\'")) {
-                            element += character;
-                        } else {
-                            String token = "<\',sy_cosi> " + "<" + element + ",value> " + "<\',sy_cosi> ";
-                            output.append(token);
-                            element = "";
-                            break;
-                        }
-                    }
-                } else {
-                    if (!character.matches("\\s|\\t")) {
-                        if (!element.isEmpty()) {
-                            String token = "<" + element + "," + elementDescription(element) + "> " + "<" + character + "," + elementDescription(character) + "> ";
-                            output.append(token);
-                        } else {
-                            String token = "<" + character + "," + elementDescription(character) + "> ";
-                            output.append(token);
-                        }
-                        if (character.equals(";") || character.equals("{") || character.equals("}")) {
-                            if (!String.valueOf(line.charAt(indexChar + 1)).equals(";")) {
-                                if (!String.valueOf(line.charAt(indexChar + 2)).equals(";")) {
-                                    output.append("\n");
-                                }
-                            }
-                        }
-                    } else {
-                        if (!element.isEmpty()) {
-                            String token = "<" + element + "," + elementDescription(element) + "> ";
-                            output.append(token);
-                        }
-                    }
-                    element = "";
-                }
-            }
-        }
-        //Una doble pasada para buscar los números con exponentes
-        ArrayList<String> tokens = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
-        output.setText("");
-        tokens.forEach((token) -> {
-            String[] t = token.split("\\s");
-            for (int i = 0; i < t.length; i++) {
-                if (t[i].matches("<\\d+(.\\d+)?E,error>") && i < (t.length - 2)) {
-                    if (t[i + 1].matches("<(\\+|-),(op_less|op_add)>")) {
-                        if (t[i + 2].matches("<\\d+,num>")) {
-                            String t1 = t[i];
-                            String t2 = t[i + 1];
-                            String t3 = t[i + 2];
-                            String oldChar = "" + t1 + " " + t2 + " " + t3;
-                            t1 = t1.replace("<", "").replace(">", "").replace(",", "").replace("error", "");
-                            t2 = t2.replace("<", "").replace(">", "").replace(",", "").replace("op_less", "");
-                            t2 = t2.replace("<", "").replace(">", "").replace(",", "").replace("op_add", "");
-                            t3 = t3.replace("<", "").replace(">", "").replace(",", "").replace("num", "");
-                            String newChar = "<" + t1 + t2 + t3 + "," + "num" + ">";
-                            token = token.replace(oldChar, newChar);
-                        }
-                    }
-
-                }
-            }
-            output.append(token + "\n");
-        });
-
-        cleanOutput();
-        int save = JOptionPane.showConfirmDialog(this, "¿Desea guardar los tokens?", "Atención", JOptionPane.YES_NO_OPTION);
-        if (save == JOptionPane.YES_OPTION) {
-            outputFileName = (String) JOptionPane.showInputDialog(this, "Nombre de archivo: ", "Archivo", JOptionPane.DEFAULT_OPTION, fileIcon, null, null);
-            if (outputFileName != null) {
-                if (outputFileName.matches("\\w+")) {
-                    ArrayList<String> contentOutput = new ArrayList<>(Arrays.asList(output.getText().split("\n")));
-                    Txt outputFile = new Txt(outputFileName);
-                    outputFile.addContent(contentOutput);
-                    outputFileName = null;
-                } else {
-                    JOptionPane.showMessageDialog(this, "Nombre incorrecto");
-                }
-            }
-
-        }
-
-    }
-
-    private void sintacticAnalize() {
-        symbolsTableDialog.setVisible(true);
-    }
-
-    private void semanticAnalize() {
-
-    }
-
-    private void cleanOutput() {
-        String code = output.getText();
-        String[] tokens = code.split("\n");
-        output.setText("");
-        for (String token : tokens) {
-            if (!token.matches("\\s*|\\t*")) {
-                output.append(token.trim() + "\n");
-            }
-        }
-    }
-
     private void clean() {
         input.setText("");
         output.setText("");
-    }
-
-    private String elementDescription(String line) {
-        String description = "value";
-        for (Element element : elements) {
-            if (element.getValue().equals(line)) {
-                description = element.getDescription();
-                break;
-            }
-        }
-        if (description.equals("value")) {
-            if (line.matches("^(_{2,}|_\\w|[a-zA-Z])\\w*$")) {
-                description = "id";
-            } else if (line.matches("\\d+(\\.)?(\\d*)?(f|((E[+-]?\\d)?)d?|l)?")) {
-                description = "num";
-            } else if (line.matches("^(((_{2,}|_\\w|[a-zA-Z])\\w*).)+$")) {
-                description = "objects";
-            } else {
-                description = "error";
-            }
-        }
-        return description;
-    }
-
-    public static String[] split(CharSequence input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        int start = 0;
-        ArrayList<String> result = new ArrayList();
-        while (matcher.find()) {
-            result.add(input.subSequence(start, matcher.start()).toString());
-            result.add(matcher.group());
-            start = matcher.end();
-        }
-        if (start != input.length()) {
-            result.add(input.subSequence(start, input.length()).toString());
-        }
-        return result.toArray(new String[0]);
-    }
-
-    public static int sizeOf(String type) {
-        switch (type) {
-            case "byte":
-                return 1;
-            case "short":
-                return 2;
-            case "int":
-                return 4;
-            case "long":
-                return 8;
-            case "float":
-                return 4;
-            case "double":
-                return 8;
-            case "boolean":
-                return 1;
-            case "char":
-                return 2;
-            case "String":
-                return 8;
-            default:
-                return -1;
-        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="barSynchronized Method">
