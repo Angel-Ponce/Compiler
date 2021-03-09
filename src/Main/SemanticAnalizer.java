@@ -15,4 +15,8 @@ public class SemanticAnalizer {
 
     }
 
+    public void analize() {
+
+    }
+
 }

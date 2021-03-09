@@ -56,6 +56,7 @@ public class Compiler extends javax.swing.JFrame {
         //Build analizers
         lexicA = new LexicAnalizer(elements, input, output);
         sintacticA = new SintacticAnalizer(input, output, symbolsTableDialog);
+        semanticA = new SemanticAnalizer();
         //
         chargue.setVisible(false);
         symbolsTableDialog.setLocationRelativeTo(this);
@@ -403,10 +404,10 @@ public class Compiler extends javax.swing.JFrame {
                 lexicA.analize();
                 break;
             case 2:
-
+                sintacticA.analize();
                 break;
             case 3:
-
+                semanticA.analize();
                 break;
             default:
                 lexicA.analize();
