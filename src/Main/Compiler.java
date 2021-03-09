@@ -74,6 +74,13 @@ public class Compiler extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         fileChooser = new javax.swing.JFileChooser();
+        symbolsTableDialog = new javax.swing.JDialog();
+        containerTable = new javax.swing.JPanel();
+        tablePanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        footerTablePanel = new javax.swing.JPanel();
+        saveTable = new javax.swing.JButton();
         container = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         upPanel = new javax.swing.JPanel();
@@ -101,6 +108,72 @@ public class Compiler extends javax.swing.JFrame {
         semanticAnalizer = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         github = new javax.swing.JMenuItem();
+
+        symbolsTableDialog.setModal(true);
+        symbolsTableDialog.setPreferredSize(new java.awt.Dimension(500, 500));
+        symbolsTableDialog.setSize(new java.awt.Dimension(500, 500));
+
+        containerTable.setLayout(new java.awt.GridBagLayout());
+
+        tablePanel.setLayout(new java.awt.BorderLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No", "Identificador", "Dirección", "Tipo", "Dimensión"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
+        }
+
+        tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        containerTable.add(tablePanel, gridBagConstraints);
+
+        footerTablePanel.setPreferredSize(new java.awt.Dimension(500, 50));
+
+        saveTable.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        saveTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/save.png"))); // NOI18N
+        saveTable.setText("Guardar");
+        footerTablePanel.add(saveTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        containerTable.add(footerTablePanel, gridBagConstraints);
+
+        symbolsTableDialog.getContentPane().add(containerTable, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fase 1");
@@ -602,6 +675,31 @@ public class Compiler extends javax.swing.JFrame {
         return result.toArray(new String[0]);
     }
 
+    public static int sizeOf(String type) {
+        switch (type) {
+            case "byte":
+                return 1;
+            case "short":
+                return 2;
+            case "int":
+                return 4;
+            case "long":
+                return 8;
+            case "float":
+                return 4;
+            case "double":
+                return 8;
+            case "boolean":
+                return 1;
+            case "char":
+                return 2;
+            case "String":
+                return 8;
+            default:
+                return -1;
+        }
+    }
+
     //<editor-fold defaultstate="collapsed" desc="barSynchronized Method">
     private void barSynchronized() {
         sp2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
@@ -732,28 +830,35 @@ public class Compiler extends javax.swing.JFrame {
     private javax.swing.JButton chargue;
     private javax.swing.JButton clean;
     private javax.swing.JPanel container;
+    private javax.swing.JPanel containerTable;
     private javax.swing.JButton example;
     private javax.swing.JButton exit;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel footerContainer;
+    private javax.swing.JPanel footerTablePanel;
     private javax.swing.JMenuItem github;
     private javax.swing.JTextArea input;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JMenuItem lexicAnalizer;
     private javax.swing.JTextArea lineCounterBottom;
     private javax.swing.JTextArea lineCounterUp;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextArea output;
+    private javax.swing.JButton saveTable;
     private javax.swing.JMenuItem semanticAnalizer;
     private javax.swing.JMenuItem sintacticAnalizer;
     private javax.swing.JScrollPane sp1;
     private javax.swing.JScrollPane sp2;
     private javax.swing.JScrollPane sp3;
     private javax.swing.JScrollPane sp4;
+    private javax.swing.JDialog symbolsTableDialog;
+    private javax.swing.JPanel tablePanel;
     private javax.swing.JPanel upPanel;
     // End of variables declaration//GEN-END:variables
 }
