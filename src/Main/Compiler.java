@@ -6,7 +6,10 @@
 package Main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
@@ -18,9 +21,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import static javax.swing.SwingConstants.CENTER;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -68,6 +74,12 @@ public class Compiler extends javax.swing.JFrame {
         addNumberUp();
         input.requestFocus();
         this.setLocationRelativeTo(null);
+
+        symbolsTable.getColumnModel().getColumn(0).setCellRenderer(new CustomCell("num"));
+        symbolsTable.getColumnModel().getColumn(1).setCellRenderer(new CustomCell());
+        symbolsTable.getColumnModel().getColumn(2).setCellRenderer(new CustomCell());
+        symbolsTable.getColumnModel().getColumn(3).setCellRenderer(new CustomCell());
+        symbolsTable.getColumnModel().getColumn(4).setCellRenderer(new CustomCell("num"));
     }
 
     /**
@@ -150,7 +162,7 @@ public class Compiler extends javax.swing.JFrame {
         if (symbolsTable.getColumnModel().getColumnCount() > 0) {
             symbolsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
             symbolsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-            symbolsTable.getColumnModel().getColumn(2).setPreferredWidth(70);
+            symbolsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
             symbolsTable.getColumnModel().getColumn(3).setPreferredWidth(100);
             symbolsTable.getColumnModel().getColumn(4).setPreferredWidth(70);
         }
@@ -592,6 +604,39 @@ public class Compiler extends javax.swing.JFrame {
             new Compiler().setVisible(true);
         });
     }
+
+    //<editor-fold defaultstate="collapsed" desc="TableStyleCells">
+    class CustomCell extends DefaultTableCellRenderer {
+
+        private String type = "";
+
+        public CustomCell(String type) {
+            this.type = type;
+        }
+
+        public CustomCell() {
+
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            this.setHorizontalAlignment(CENTER);
+            this.setText(String.valueOf(value));
+            if (type.equals("num")) {
+                this.setForeground(new Color(97, 173, 10));
+            }
+            if (isSelected) {
+                this.setBackground(new Color(43, 43, 43));
+                this.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+            } else {
+                this.setBackground(null);
+                this.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+            }
+            return this;
+        }
+
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Element inner class">
     class Element {
