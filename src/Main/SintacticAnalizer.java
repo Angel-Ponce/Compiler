@@ -44,17 +44,16 @@ public class SintacticAnalizer {
             if (tokens[i].matches("<.+,id>")) {
                 String id = tokens[i].replace("<", "").replace(">", "").replace(",", "").replace("id", "");
                 try {
-                    if (tokens[i - 1].matches("<.+,dato>") && !tokens[i + 1].matches("<\\(,par_a>")) {
-                        String type = tokens[i - 1].replace("<", "").replace(">", "").replace(",", "").replace("dato", "");
+                    if (tokens[i - 1].matches("<.+,dato>") || tokens[i - 1].matches("<class,pr>")) {
+                        String type = tokens[i - 1].replace("<", "").replace(">", "").replace(",", "").replace("dato", "").replace("pr", "");
                         String direction = "STATIC+" + directionSize;
-                        Object[] row = {counter, id, direction, type, String.valueOf(0)};
-                        directionSize += sizeOf(type);
+                        int dimention = 0;
+                        if (type.equals("String")) {
+                        }
+                        Object[] row = {counter, id, direction, type, dimention};
+                        directionSize += sizeOf(type) + dimention;
                         counter++;
                         model.addRow(row);
-                    } else if (tokens[i - 1].matches("<.+,modificador>")) {
-
-                    } else if (tokens[i - 1].matches("<pr,class>")) {
-
                     }
                 } catch (Exception e) {
                     System.err.println(e);
@@ -83,8 +82,6 @@ public class SintacticAnalizer {
                 return 1;
             case "char":
                 return 2;
-            case "String":
-                return 8;
             default:
                 return 0;
         }
