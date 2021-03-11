@@ -5,6 +5,9 @@
  */
 package Main;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -37,7 +40,14 @@ public class SintacticAnalizer {
         for (int i = symbolsTable.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
         }
-        String[] tokens = input.getText().replace("\n", " ").split("\\s");
+        String[] tokens = split(input.getText().replace("\n", " "), "(?:<[^<]*?>|[^\\s])+");
+        ArrayList<String> arrTokens = new ArrayList();
+        for (String t : tokens) {
+            if (!t.matches("\\s+")) {
+                arrTokens.add(t);
+            }
+        }
+        tokens = arrTokens.toArray(new String[0]);
         int counter = 1;
         int directionSize = 0;
         for (int i = 0; i < tokens.length; i++) {
@@ -49,6 +59,13 @@ public class SintacticAnalizer {
                         String direction = "STATIC+" + directionSize;
                         int dimention = 0;
                         if (type.equals("String")) {
+                            if (tokens[i + 1].matches("<=,sy_asig>")
+                                    && tokens[i + 2].matches("<\",sy_codo>")
+                                    && tokens[i + 3].matches("<.*,value>")
+                                    && tokens[i + 4].matches("<\",sy_codo>")) {
+                                String valueString = tokens[i + 3].replace("<", "").replace(">", "").replace(",", "").replace("value", "");
+                                dimention = valueString.length();
+                            }
                         }
                         Object[] row = {counter, id, direction, type, dimention};
                         directionSize += sizeOf(type) + dimention;
@@ -85,5 +102,21 @@ public class SintacticAnalizer {
             default:
                 return 0;
         }
+    }
+
+    public static String[] split(CharSequence input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        int start = 0;
+        ArrayList<String> result = new ArrayList();
+        while (matcher.find()) {
+            result.add(input.subSequence(start, matcher.start()).toString());
+            result.add(matcher.group());
+            start = matcher.end();
+        }
+        if (start != input.length()) {
+            result.add(input.subSequence(start, input.length()).toString());
+        }
+        return result.toArray(new String[0]);
     }
 }

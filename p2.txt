@@ -1,0 +1,6 @@
+<public,modificador> <String,dato> <myString,id> <(,par_a> <),par_c> <{,lla_a>
+<return,pr> <",sy_codo> <Hola gg,value> <",sy_codo> <;,terminal>
+<},lla_c>
+<String,dato> <value,id> <=,sy_asig> <",sy_codo> < Hola mundo ,value> <",sy_codo> <;,terminal>
+<String,dato> <v2,id> <=,sy_asig> <",sy_codo> <value,value> <",sy_codo> <;,terminal>
+<String,dato> <v3,id> <=,sy_asig> <",sy_codo> <Texto con una coma, si,value> <",sy_codo> <;,terminal>
